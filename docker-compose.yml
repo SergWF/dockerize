@@ -1,0 +1,32 @@
+version: "3"
+services:
+  nyon-oracle:
+    image: nyon-oracle-12.2.0.1
+    build:
+      context: . 
+      dockerfile: Dockerfile.oracle12c
+    entrypoint: 
+      - ORACLE_SID ORCLCDB
+      - ORACLE_PDB ORCLPDB
+      - ORACLE_PWD sql
+      - ORACLE_CHARACTERSET AL32UTF8
+    ports:
+      - 1521:1521
+    volumes:
+      - ./localdata/oradata:/opt/oracle/product/12.2.0.1/dbhome_1/oradata
+  nyon-mongo:
+    image: nyon-mongo
+    build:
+      context: .
+      dockerfile: Dockerfile.mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./localdata/mongodata:/data/db
+#  nyon-restapi:
+#    image: nyon-restapi
+#    build:
+#      context: ./
+#      dockerfile: docker/Dockerfile.restapi      
+#    ports:
+#       - 18080:8080
